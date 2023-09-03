@@ -1,0 +1,13 @@
+name: CI-CD
+on: 
+  push:
+    branches: ["main"]
+  workflow_dispatch:
+jobs:
+  CI: 
+    runs-on: ubunto-latest
+    steps:
+      - name: Obtendo o código fonte
+        uses: actions/checkout@v3.5.3
+
+      - run: echo "pipeline"
