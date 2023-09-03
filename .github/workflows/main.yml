@@ -39,8 +39,16 @@ jobs:
     runs-on: ubuntu-latest
     needs: [CI]
     steps:
-      - name: Azure Login with Admin User
-        run: az login --username ${{ secrets.SERVERCONTAINERUSER }} --password ${{ secrets.CONTAINERREGISTRYPASSWORD }}
+      - name: Azure Login
+        uses: Azure/login@v1.4.6
+        with:
+          creds: '{"clientId":"${{ secrets.SP_ID }}","clientSecret":"${{ secrets.SP_PASSWORD }}","subscriptionId":"${{ secrets.SP_SUBSCRIPTION }}","tenantId":"${{ secrets.SP_TENTANT }}"}'
+      - name: Azure Container Registry Login
+        uses: Azure/docker-login@v1
+        with:
+          username: ${{ secrets.SERVERCONTAINERUSER }}
+          password: ${{ secrets.CONTAINERREGISTRYPASSWORD }}
+          login-server: ${{ secrets.SERVERCONTAINERREGISTRY }}
       - name: Deploy to Azure Container Instances
         uses: Azure/aci-deploy@v1
         with:
