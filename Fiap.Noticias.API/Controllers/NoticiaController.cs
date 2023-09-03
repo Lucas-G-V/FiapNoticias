@@ -30,11 +30,28 @@ namespace Fiap.Noticias.API.Controllers
         [HttpGet("GetAll")]
         public async Task<ActionResult<List<Noticia>>> ObterTodos()
         {
-            var receitas = await _noticiaService.GetAll();
+            try
+            {
+                var receitas = await _noticiaService.GetAll();
 
-            if (receitas == null) return NotFound();
+                if (receitas == null) return NotFound();
 
-            return Ok(receitas);
+                return Ok(receitas);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+           
         }
+
+        [HttpGet("Teste")]
+        public async Task<ActionResult<string>> Teste()
+        {
+
+            return Ok("É o banco de dados");
+        }
+
+
     }
 }
