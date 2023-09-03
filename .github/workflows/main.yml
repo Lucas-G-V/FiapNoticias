@@ -53,7 +53,6 @@ jobs:
           cpu: 1
           # The DNS Name Label for Container with Public IP
           dns-name-label: fiapnoticia
-          gpu-count: 0
           # Specify the fully qualified container image name. For example, "myregistry.azurecr.io/nginx:latest" or "python:3.7.2-alpine/"
           image: acrnoticiafiap.azurecr.io/fiapnoticiaapi:latest
           # Location where the Container will be deployed
