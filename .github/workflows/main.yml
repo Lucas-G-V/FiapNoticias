@@ -10,4 +10,30 @@ jobs:
       - name: Obtendo o código fonte
         uses: actions/checkout@v3.5.3
 
-      - run: echo "pipeline"
+      - name: Azure Container Registry Login
+        uses: Azure/docker-login@v1
+        with:
+          username: ${{ secrets.SERVERCONTAINERUSER }}
+          password: ${{ secrets.CONTAINERREGISTRYPASSWORD }}
+          login-server: ${{ secrets.SERVERCONTAINERREGISTRY }}
+          
+      - name: Azure Container Registry Build
+        uses: Azure/acr-build@v1
+        with:
+          # Service Principal with Contributor role on the ACR
+          service_principal: ${{ secrets.SP_ID }}
+          # Service Principal password
+          service_principal_password: ${{ secrets.SP_PASSWORD }}
+          # Azure Container Registry tenant
+          tenant: ${{ secrets.SP_TENTANT }}
+          # The name of the ACR, minus the .azurecr.io
+          registry: acrnoticiafiap
+          # Repository to use
+          repository: fiapnoticiaapi
+          # Docker image name
+          image: fiapnoticiaimage
+          # Docker image tag, default to the commit SHA
+          tag: latest
+          # Branch to build from, defaults to master
+          branch: main
+      
