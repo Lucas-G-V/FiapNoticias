@@ -42,14 +42,7 @@ jobs:
       - name: Azure Login
         uses: Azure/login@v1.4.6
         with:
-          # Paste output of `az ad sp create-for-rbac` as value of secret variable: AZURE_CREDENTIALS
-          creds: ${{ secrets.SP_PASSWORD }}
-          # ClientId of the Azure Service principal created.
-          client-id: ${{ secrets.SP_ID }}
-          # TenantId of the Azure Service principal created.
-          tenant-id: ${{ secrets.SP_TENTANT }}
-          # Azure subscriptionId
-          subscription-id: ${{ secrets.SP_SUBSCRIPTION }}
+          creds: '{"clientId":"${{ secrets.SP_ID }}","clientSecret":"${{ secrets.SP_PASSWORD }}","subscriptionId":"${{ secrets.SP_SUBSCRIPTION }}","tenantId":"${{ secrets.SP_TENTANT }}"}'
       - name: Deploy to Azure Container Instances
         uses: Azure/aci-deploy@v1
         with:
