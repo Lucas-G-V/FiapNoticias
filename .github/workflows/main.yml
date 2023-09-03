@@ -39,6 +39,17 @@ jobs:
     runs-on: ubuntu-latest
     needs: [CI]
     steps:
+      - name: Azure Login
+        uses: Azure/login@v1.4.6
+        with:
+          # Paste output of `az ad sp create-for-rbac` as value of secret variable: AZURE_CREDENTIALS
+          creds: ${{ secrets.SP_PASSWORD }}
+          # ClientId of the Azure Service principal created.
+          client-id: ${{ secrets.SP_ID }}
+          # TenantId of the Azure Service principal created.
+          tenant-id: ${{ secrets.SP_TENTANT }}
+          # Azure subscriptionId
+          subscription-id: ${{ SP_SUBSCRIPTION }}
       - name: Deploy to Azure Container Instances
         uses: Azure/aci-deploy@v1
         with:
