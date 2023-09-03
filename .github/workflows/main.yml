@@ -43,12 +43,6 @@ jobs:
         uses: Azure/login@v1.4.6
         with:
           creds: '{"clientId":"${{ secrets.SP_ID }}","clientSecret":"${{ secrets.SP_PASSWORD }}","subscriptionId":"${{ secrets.SP_SUBSCRIPTION }}","tenantId":"${{ secrets.SP_TENTANT }}"}'
-      - name: Azure Container Registry Login
-        uses: Azure/docker-login@v1
-        with:
-          username: ${{ secrets.SERVERCONTAINERUSER }}
-          password: ${{ secrets.CONTAINERREGISTRYPASSWORD }}
-          login-server: ${{ secrets.SERVERCONTAINERREGISTRY }}
       - name: Deploy to Azure Container Instances
         uses: Azure/aci-deploy@v1
         with:
@@ -61,7 +55,9 @@ jobs:
           dns-name-label: fiapnoticia
           # Specify the fully qualified container image name. For example, "myregistry.azurecr.io/nginx:latest" or "python:3.7.2-alpine/"
           image: acrnoticiafiap.azurecr.io/fiapnoticiaapi:latest
-          # Location where the Container will be deployed
+          registry-login-server: ${{ secrets.SERVERCONTAINERREGISTRY }}
+          registry-username: ${{ secrets.SERVERCONTAINERUSER }}
+          registry-password: ${{ secrets.CONTAINERREGISTRYPASSWORD }}
           location: East US
           memory: 1
           # Name of the Container Group Instance
