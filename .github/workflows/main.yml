@@ -49,7 +49,7 @@ jobs:
           # TenantId of the Azure Service principal created.
           tenant-id: ${{ secrets.SP_TENTANT }}
           # Azure subscriptionId
-          subscription-id: ${{ SP_SUBSCRIPTION }}
+          subscription-id: ${{ secrets.SP_SUBSCRIPTION }}
       - name: Deploy to Azure Container Instances
         uses: Azure/aci-deploy@v1
         with:
