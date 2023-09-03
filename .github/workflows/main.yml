@@ -51,7 +51,7 @@ jobs:
           dns-name-label: fiapnoticia
           gpu-count: 0
           # Specify the fully qualified container image name. For example, "myregistry.azurecr.io/nginx:latest" or "python:3.7.2-alpine/"
-          image: acrnoticiafiap.azurecr.io/fiapnoticiaapi/fiapnoticiaimage:latest
+          image: acrnoticiafiap.azurecr.io/fiapnoticiaapi:latest
           # Location where the Container will be deployed
           location: East US
           memory: 1
