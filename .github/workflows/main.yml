@@ -65,5 +65,4 @@ jobs:
           # The OS type of the Containers. Accepted Values are  { Linux, Windows }
           os-type: Linux
           ports: 80
-          # The Network protocol to use. Accepted Values are { TCP, UDP }
           
