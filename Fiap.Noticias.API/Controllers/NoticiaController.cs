@@ -17,41 +17,40 @@ namespace Fiap.Noticias.API.Controllers
             _noticiaService = noticiaService;
         }
 
-        [HttpGet("{id:guid}")]
+        [HttpGet("ObterPorId/{id:guid}")]
         public async Task<ActionResult<Noticia>> ObterPorId(Guid id)
         {
-            var receita = await _noticiaService.GetById(id);
+            var noticia = await _noticiaService.GetById(id);
 
-            if (receita == null) return NotFound();
+            if (noticia == null) return NotFound();
 
-            return Ok(receita);
+            return Ok(noticia);
         }
 
         [HttpGet("GetAll")]
         public async Task<ActionResult<List<Noticia>>> ObterTodos()
         {
-            try
-            {
-                var receitas = await _noticiaService.GetAll();
+            var noticias = await _noticiaService.GetAll();
 
-                if (receitas == null) return NotFound();
+            if (noticias == null) return NotFound();
 
-                return Ok(receitas);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
-           
+            return Ok(noticias);
         }
 
-        [HttpGet("Teste")]
-        public async Task<ActionResult<string>> Teste()
+        [HttpPost]
+        public async Task<ActionResult<int>> Post([FromBody] Noticia noticia)
         {
+            var noticias = await _noticiaService.Add(noticia);
 
-            return Ok("É o banco de dados");
+            return CreatedAtAction(nameof(ObterPorId), new {Id = noticia.Id}, noticia);
         }
 
-
+        [HttpPut("{id}")]
+        public async Task<ActionResult<int>> Update(Guid id, [FromBody] Noticia noticia)
+        {
+            var noticias = await _noticiaService.Update(noticia, id);
+            if(noticias == 0) { return NotFound(); }    
+            return Ok(noticias);
+        }
     }
 }

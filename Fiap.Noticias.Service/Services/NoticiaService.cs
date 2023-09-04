@@ -31,9 +31,13 @@ namespace Fiap.Noticias.Service.Services
             return await _noticiaRepository.GetById(id);
         }
 
-        public async Task<int> Update(Noticia noticia)
+        public async Task<int> Update(Noticia noticia, Guid id)
         {
-            return await _noticiaRepository.Update(noticia);
+            if(await _noticiaRepository.GetById(id) != null)
+            {
+                return await _noticiaRepository.Update(noticia);
+            }
+            return 0;
         }
     }
 }

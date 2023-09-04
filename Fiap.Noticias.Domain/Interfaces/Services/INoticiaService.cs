@@ -12,6 +12,6 @@ namespace Fiap.Noticias.Domain.Interfaces.Services
         Task<List<Noticia>> GetAll();
         Task<Noticia> GetById(Guid id);
         Task<int> Add(Noticia noticia);
-        Task<int> Update(Noticia noticia);
+        Task<int> Update(Noticia noticia, Guid id);
     }
 }

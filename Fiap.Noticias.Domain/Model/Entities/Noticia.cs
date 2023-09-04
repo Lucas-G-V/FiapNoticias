@@ -11,8 +11,8 @@ namespace Fiap.Noticias.Domain.Model.Entities
     {
         public string Titulo { get; set; }
         public string Descricao { get; set; }
-        public string Chapeu { get; set; }
-        public DateTime DataPublicacao { get; set; }
+        public string? Chapeu { get; set; }
+        public DateTime DataPublicacao { get; set; } = DateTime.Now;
         public string Autor { get; set; }
     }
 }

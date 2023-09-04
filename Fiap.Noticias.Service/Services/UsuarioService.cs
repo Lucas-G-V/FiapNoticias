@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Markup;
 
 namespace Fiap.Noticias.Service.Services
 {
@@ -27,7 +28,7 @@ namespace Fiap.Noticias.Service.Services
             var usuario = await _usuarioRepository.GetByEmail(loginRequest.Email);
             if(usuario != null)
             {
-                if(usuario.Senha == loginRequest.Senha)
+                if (_securityService.Criptografar(loginRequest.Senha) == usuario.Senha)
                 {
                     return _securityService.CreateToken(usuario.Nome);
                 }
