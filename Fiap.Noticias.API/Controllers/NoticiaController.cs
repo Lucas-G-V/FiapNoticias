@@ -50,7 +50,7 @@ namespace Fiap.Noticias.API.Controllers
         {
             var noticias = await _noticiaService.Update(noticia, id);
             if(noticias == 0) { return NotFound(); }    
-            return Ok(noticias);
+            return Ok(noticia);
         }
     }
 }

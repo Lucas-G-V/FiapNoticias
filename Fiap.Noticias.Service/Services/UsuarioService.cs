@@ -3,6 +3,7 @@ using Fiap.Noticias.Domain.Interfaces.Repositories;
 using Fiap.Noticias.Domain.Interfaces.Services;
 using Fiap.Noticias.Domain.Model.Entities;
 using Fiap.Noticias.Domain.ViewModel.Request;
+using Fiap.Noticias.Domain.ViewModel.Response;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,17 +24,29 @@ namespace Fiap.Noticias.Service.Services
             _securityService = securityService;
         }
 
-        public async Task<string> Login(LoginRequest loginRequest)
+        public async Task<LoginResponseViewModel> Login(LoginRequest loginRequest)
         {
             var usuario = await _usuarioRepository.GetByEmail(loginRequest.Email);
             if(usuario != null)
             {
                 if (_securityService.Criptografar(loginRequest.Senha) == usuario.Senha)
                 {
-                    return _securityService.CreateToken(usuario.Nome);
+                    var token = _securityService.CreateToken(usuario.Nome);
+                    return AjustaResponse(token, usuario);
                 }
             }
             return null;
+        }
+
+        private LoginResponseViewModel AjustaResponse(string token, Usuario usuario)
+        {
+            var usuarioResponse = new UsuarioViewModel
+            {
+                Id = usuario.Id,
+                Nome = usuario.Nome,
+                Email = usuario.Email,
+            };
+            return new LoginResponseViewModel { AccessToken = token, User = usuarioResponse };
         }
     }
 }

@@ -1,8 +1,10 @@
 ﻿using Fiap.Noticias.Domain.Interfaces.Services;
 using Fiap.Noticias.Domain.Model.Entities;
 using Fiap.Noticias.Domain.ViewModel.Request;
+using Fiap.Noticias.Domain.ViewModel.Response;
 using Fiap.Noticias.Service.Services;
 using Microsoft.AspNetCore.Mvc;
+using System.Net;
 
 namespace Fiap.Noticias.API.Controllers
 {
@@ -16,14 +18,16 @@ namespace Fiap.Noticias.API.Controllers
             _usuarioService = usuarioService;
         }
 
+        [ProducesResponseType(typeof(LoginResponseViewModel), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(string), (int)HttpStatusCode.BadRequest)]
         [HttpPost("Login")]
-        public async Task<ActionResult<string>> Login(LoginRequest loginRequest)
+        public async Task<ActionResult> Login(LoginRequest loginRequest)
         {
-            var accessToken = await _usuarioService.Login(loginRequest);
+            var usuarioResponse = await _usuarioService.Login(loginRequest);
 
-            if (accessToken == null) return BadRequest("Login/Senha inválido");
+            if (usuarioResponse == null) return BadRequest("Login/Senha inválido");
 
-            return Ok(accessToken);
+            return Ok(usuarioResponse);
         }
     }
 }
