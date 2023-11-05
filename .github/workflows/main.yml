@@ -26,11 +26,14 @@ jobs:
       - name: Aguardar Inicialização do SQL Server
         run: |
           while ! nc -z localhost 1433; do sleep 1; done
+
+      - name: Instalar Entity Framework CLI
+        run: dotnet tool install --global dotnet-ef
           
       - name: Restaurar Dependências e Executar Migrações
         run: |
           dotnet restore
-          dotnet ef database update --project Fiap.Noticia.Infra.Data --startup-project Fiap.Noticia.API
+          dotnet ef database update --project Fiap.Noticias.Infra.Data --startup-project Fiap.Noticias.API
 
       - name: Executar Testes de Integração
         run: dotnet test Fiap.Noticia.TesteIntegracao/Fiap.Noticia.TesteIntegracao.csproj
