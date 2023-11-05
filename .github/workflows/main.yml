@@ -33,7 +33,7 @@ jobs:
       - name: Restaurar Dependências e Executar Migrações
         run: |
           dotnet restore
-          dotnet ef database update --project Fiap.Noticia.Infra.Data --startup-project Fiap.Noticia.API
+          dotnet ef database update --project Fiap.Noticias.Infra.Data --startup-project Fiap.Noticias.API
 
       - name: Executar Testes de Integração
         run: dotnet test Fiap.Noticia.TesteIntegracao/Fiap.Noticia.TesteIntegracao.csproj
