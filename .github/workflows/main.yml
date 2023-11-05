@@ -18,8 +18,25 @@ jobs:
         run: dotnet restore
       - name: Build
         run: dotnet build
-      - name: Test with the dotnet CLI
-        run: dotnet test
+     
+      - name: Configurar SQL Server para Testes
+        run: |
+          docker run -e "ACCEPT_EULA=Y" -e "SA_PASSWORD=Lucas123" -p 1433:1433 --name test-sql-server -d mcr.microsoft.com/mssql/server:2019-latest
+
+      - name: Aguardar Inicialização do SQL Server
+        run: |
+          while ! nc -z localhost 1433; do sleep 1; done
+          
+      - name: Restaurar Dependências e Executar Migrações
+        run: |
+          dotnet restore
+          dotnet ef database update --project Fiap.Noticia.Infra.Data --startup-project Fiap.Noticia.API
+
+      - name: Executar Testes de Integração
+        run: dotnet test Fiap.Noticia.TesteIntegracao/Fiap.Noticia.TesteIntegracao.csproj
+
+      - name: Limpar Contêiner SQL Server
+        run: docker stop test-sql-server && docker rm test-sql-server
       -
         name: Login to Docker Hub
         uses: docker/login-action@v3
