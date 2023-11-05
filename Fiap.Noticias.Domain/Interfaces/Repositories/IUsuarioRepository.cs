@@ -10,5 +10,6 @@ namespace Fiap.Noticias.Domain.Interfaces.Repositories
     public interface IUsuarioRepository
     {
         Task<Usuario> GetByEmail(string email);
+        Task<int> Criar(Usuario usuario);   
     }
 }

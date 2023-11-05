@@ -1,4 +1,5 @@
-﻿using Fiap.Noticias.CrossCutting;
+﻿using AutoMapper;
+using Fiap.Noticias.CrossCutting;
 using Fiap.Noticias.Domain.Interfaces.Repositories;
 using Fiap.Noticias.Domain.Interfaces.Services;
 using Fiap.Noticias.Domain.Model.Entities;
@@ -17,11 +18,20 @@ namespace Fiap.Noticias.Service.Services
     {
         private readonly IUsuarioRepository _usuarioRepository;
         private readonly ISecurityService _securityService;
+        private readonly IMapper _mapper;
 
-        public UsuarioService(IUsuarioRepository usuarioRepository, ISecurityService securityService)
+        public UsuarioService(IUsuarioRepository usuarioRepository, ISecurityService securityService, IMapper mapper)
         {
             _usuarioRepository = usuarioRepository;
             _securityService = securityService;
+            _mapper = mapper;
+        }
+
+        public async Task<int> CriarUsuario(UsuarioCreateRequest usuario)
+        {
+            var usuarioCreate = _mapper.Map<Usuario>(usuario);  
+            usuarioCreate.Senha = _securityService.Criptografar(usuarioCreate.Senha);
+            return await _usuarioRepository.Criar(usuarioCreate);
         }
 
         public async Task<LoginResponseViewModel> Login(LoginRequest loginRequest)

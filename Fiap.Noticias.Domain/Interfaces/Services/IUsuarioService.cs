@@ -7,5 +7,6 @@ namespace Fiap.Noticias.Domain.Interfaces.Services
     public interface IUsuarioService
     {
         Task<LoginResponseViewModel> Login(LoginRequest loginRequest);
+        Task<int> CriarUsuario(UsuarioCreateRequest usuario);
     }
 }

@@ -8,27 +8,29 @@ using Fiap.Noticia.TesteIntegracao.Config;
 
 namespace Fiap.Noticias.TesteIntegracao.Controllers
 {
+    [Collection(nameof(IntegrationTestsFixtureCollection))]
     public class NoticiaIntegrationTest : IClassFixture<NoticiaAppFactory<Program>>
     {
-        private readonly NoticiaAppFactory<Program> _factory;
         private readonly Faker _faker;
-        public NoticiaIntegrationTest(NoticiaAppFactory<Program> factory)
+        private readonly TesteIntegracaoFixture _fixture;
+        public NoticiaIntegrationTest(TesteIntegracaoFixture fixture)
         {
             _faker = new Faker();
-            _factory = factory;
+            _fixture = fixture;
         }
 
         [Fact(DisplayName = "Validando GetAll")]
         [Trait("Categoria", "Validando Controller Noticias")]
         public async Task GetAll_ReturnsOkResult()
         {
-            // Arrange
-            var client = _factory.CreateClient();
+            await _fixture.RealizarCadastroUsuario();
+            await _fixture.RealizarLoginApi();
+            _fixture.Client.AtribuirToken(_fixture.AccessToken);
 
-            // Act
+            var client = _fixture.Client;
+
             var response = await client.GetAsync("/Noticia/GetAll");
 
-            // Assert
             response.EnsureSuccessStatusCode();
         }
 
@@ -36,14 +38,17 @@ namespace Fiap.Noticias.TesteIntegracao.Controllers
         [Trait("Categoria", "Validando Controller Noticias")]
         public async Task PostNoticiaOkResult()
         {
-            var client = _factory.CreateClient();
+            await _fixture.RealizarCadastroUsuario();
+            await _fixture.RealizarLoginApi();
+            _fixture.Client.AtribuirToken(_fixture.AccessToken);
+
+            var client = _fixture.Client;
             var noticiaViewModel = new NoticiaViewModel
             {
                 Titulo = _faker.Random.String2(10),
                 Descricao = _faker.Random.String2(10),
                 Autor = _faker.Random.String2(10)
             };
-
             var content = new StringContent(JsonConvert.SerializeObject(noticiaViewModel), Encoding.UTF8, "application/json");
 
             // Act

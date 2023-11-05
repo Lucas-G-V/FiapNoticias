@@ -20,10 +20,11 @@ namespace Fiap.Noticias.Service.Services
             _noticiaRepository = noticiaRepository;
             _mapper = mapper;
         }
-        public async Task<int> Add(NoticiaViewModel noticia)
+        public async Task<Guid> Add(NoticiaViewModel noticia)
         {
            var noticiaNova = _mapper.Map<Noticia>(noticia);
-           return await _noticiaRepository.Add(noticiaNova);
+           await _noticiaRepository.Add(noticiaNova);
+            return noticiaNova.Id;
         }
 
         public async Task<List<Noticia>> GetAll()

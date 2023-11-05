@@ -9,7 +9,7 @@ namespace Fiap.Noticias.API.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class NoticiaController : ControllerBase
     {
         private readonly INoticiaService _noticiaService;
@@ -43,7 +43,7 @@ namespace Fiap.Noticias.API.Controllers
         {
             var noticias = await _noticiaService.Add(noticia);
 
-            return CreatedAtAction(nameof(ObterPorId), new {Id = noticia.Id}, noticia);
+            return CreatedAtAction(nameof(ObterPorId), new {Id = noticias}, noticia);
         }
 
         [HttpPut("{id}")]

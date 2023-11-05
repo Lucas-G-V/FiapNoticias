@@ -12,7 +12,7 @@ namespace Fiap.Noticias.Domain.Interfaces.Services
     {
         Task<List<Noticia>> GetAll();
         Task<Noticia> GetById(Guid id);
-        Task<int> Add(NoticiaViewModel noticia);
+        Task<Guid> Add(NoticiaViewModel noticia);
         Task<int> Update(Noticia noticia, Guid id);
     }
 }

@@ -29,5 +29,14 @@ namespace Fiap.Noticias.API.Controllers
 
             return Ok(usuarioResponse);
         }
+
+        [ProducesResponseType(typeof(LoginResponseViewModel), (int)HttpStatusCode.NoContent)]
+        [ProducesResponseType(typeof(string), (int)HttpStatusCode.BadRequest)]
+        [HttpPost("Criar")]
+        public async Task<ActionResult> Criar(UsuarioCreateRequest usuario)
+        {
+            await _usuarioService.CriarUsuario(usuario);
+            return NoContent();
+        }
     }
 }

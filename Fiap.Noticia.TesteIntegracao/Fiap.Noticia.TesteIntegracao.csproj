@@ -30,8 +30,4 @@
     <ProjectReference Include="..\Fiap.Noticias.Domain\Fiap.Noticias.Domain.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Config\" />
-  </ItemGroup>
-
 </Project>

@@ -18,5 +18,12 @@ namespace Fiap.Noticias.Infra.Data.Repositories
         {
             return await _dbSet.FirstOrDefaultAsync(x => x.Email == email);
         }
+
+        public async Task<int> Criar(Usuario usuario)
+        {
+            _dbSet.Add(usuario);
+            return await _db.SaveChangesAsync();
+        }
+
     }
 }
