@@ -22,7 +22,7 @@ namespace Fiap.Noticias.TesteUnidade.Entities
         public void ValidandoSeGeraExcecaoTituloVazio()
         {
             var result = Assert.Throws<DomainException>(() => new Noticia(null, _faker.Random.String2(15), DateTime.Now, _faker.Random.String2(15)));
-            Assert.Equal("O título não pode ser nul", result.Message);
+            Assert.Equal("O título não pode ser nulo", result.Message);
         }
 
         [Fact(DisplayName = "Validando se o titulo está com menos caracteres")]
