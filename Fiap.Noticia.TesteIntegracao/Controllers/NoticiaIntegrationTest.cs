@@ -4,20 +4,22 @@ using Fiap.Noticias.API.Controllers;
 using Fiap.Noticias.Domain.ViewModel;
 using Newtonsoft.Json;
 using System.Text;
+using Fiap.Noticia.TesteIntegracao.Config;
 
 namespace Fiap.Noticias.TesteIntegracao.Controllers
 {
-    public class NoticiaIntegrationTest : IClassFixture<WebApplicationFactory<Program>>
+    public class NoticiaIntegrationTest : IClassFixture<NoticiaAppFactory<Program>>
     {
-        private readonly WebApplicationFactory<Program> _factory;
+        private readonly NoticiaAppFactory<Program> _factory;
         private readonly Faker _faker;
-        public NoticiaIntegrationTest(WebApplicationFactory<Program> factory)
+        public NoticiaIntegrationTest(NoticiaAppFactory<Program> factory)
         {
             _faker = new Faker();
             _factory = factory;
         }
 
-        [Fact]
+        [Fact(DisplayName = "Validando GetAll")]
+        [Trait("Categoria", "Validando Controller Noticias")]
         public async Task GetAll_ReturnsOkResult()
         {
             // Arrange
@@ -30,7 +32,8 @@ namespace Fiap.Noticias.TesteIntegracao.Controllers
             response.EnsureSuccessStatusCode();
         }
 
-        [Fact]
+        [Fact(DisplayName = "Validando Post")]
+        [Trait("Categoria", "Validando Controller Noticias")]
         public async Task PostNoticiaOkResult()
         {
             var client = _factory.CreateClient();
