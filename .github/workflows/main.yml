@@ -7,62 +7,23 @@ jobs:
   CI: 
     runs-on: ubuntu-latest
     steps:
-      - name: Obtendo o código fonte
-        uses: actions/checkout@v3.5.3
-
-      - name: Azure Container Registry Login
-        uses: Azure/docker-login@v1
+      -
+        name: Checkout
+        uses: actions/checkout@v4
+      -
+        name: Login to Docker Hub
+        uses: docker/login-action@v3
         with:
-          username: ${{ secrets.SERVERCONTAINERUSER }}
-          password: ${{ secrets.CONTAINERREGISTRYPASSWORD }}
-          login-server: ${{ secrets.SERVERCONTAINERREGISTRY }}
-          
-      - name: Azure Container Registry Build
-        uses: Azure/acr-build@v1
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+      -
+        name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+      -
+        name: Build and push
+        uses: docker/build-push-action@v5
         with:
-          # Service Principal with Contributor role on the ACR
-          service_principal: ${{ secrets.SP_ID }}
-          # Service Principal password
-          service_principal_password: ${{ secrets.SP_PASSWORD }}
-          # Azure Container Registry tenant
-          tenant: ${{ secrets.SP_TENTANT }}
-          # The name of the ACR, minus the .azurecr.io
-          registry: acrnoticiafiap
-          # Repository to use
-          repository: fiapnoticiaapi
-          # Docker image tag, default to the commit SHA
-          tag: latest
-          # Branch to build from, defaults to master
-          branch: main
-      
-  CD:
-    runs-on: ubuntu-latest
-    needs: [CI]
-    steps:
-      - name: Azure Login
-        uses: Azure/login@v1.4.6
-        with:
-          creds: '{"clientId":"${{ secrets.SP_ID }}","clientSecret":"${{ secrets.SP_PASSWORD }}","subscriptionId":"${{ secrets.SP_SUBSCRIPTION }}","tenantId":"${{ secrets.SP_TENTANT }}"}'
-      - name: Deploy to Azure Container Instances
-        uses: Azure/aci-deploy@v1
-        with:
-          # Name of the Resource Group in which the Container Instance will be created
-          resource-group: noticia-fiap
-          command-line: dotnet Fiap.Noticias.API.dll 
-          # Number of CPU Cores Required
-          cpu: 1
-          # The DNS Name Label for Container with Public IP
-          dns-name-label: fiapnoticia
-          # Specify the fully qualified container image name. For example, "myregistry.azurecr.io/nginx:latest" or "python:3.7.2-alpine/"
-          image: acrnoticiafiap.azurecr.io/fiapnoticiaapi:latest
-          registry-login-server: ${{ secrets.SERVERCONTAINERREGISTRY }}
-          registry-username: ${{ secrets.SERVERCONTAINERUSER }}
-          registry-password: ${{ secrets.CONTAINERREGISTRYPASSWORD }}
-          location: East US
-          memory: 1
-          # Name of the Container Group Instance
-          name: fiapnoticiaaci
-          # The OS type of the Containers. Accepted Values are  { Linux, Windows }
-          os-type: Linux
-          ports: 80
-          
+          context: .
+          file: ./Dockerfile
+          push: true
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/noticiaapifiap:latest
