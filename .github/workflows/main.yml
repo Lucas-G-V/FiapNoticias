@@ -35,6 +35,7 @@ jobs:
       - name: Restaurar Dependências e Executar Migrações
         run: |
           dotnet restore
+          export ASPNETCORE_ENVIRONMENT=Testing
           dotnet ef database update --project Fiap.Noticias.Infra.Data --startup-project Fiap.Noticias.API
 
       - name: Executar Testes de Integração
