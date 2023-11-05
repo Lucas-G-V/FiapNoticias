@@ -26,6 +26,9 @@ jobs:
       - name: Aguardar Inicialização do SQL Server
         run: |
           while ! nc -z localhost 1433; do sleep 1; done
+
+      - name: Instalar Entity Framework CLI
+        run: dotnet tool install --global dotnet-ef
           
       - name: Restaurar Dependências e Executar Migrações
         run: |
