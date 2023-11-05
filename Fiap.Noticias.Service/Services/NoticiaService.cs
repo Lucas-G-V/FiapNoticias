@@ -1,6 +1,8 @@
-﻿using Fiap.Noticias.Domain.Interfaces.Repositories;
+﻿using AutoMapper;
+using Fiap.Noticias.Domain.Interfaces.Repositories;
 using Fiap.Noticias.Domain.Interfaces.Services;
 using Fiap.Noticias.Domain.Model.Entities;
+using Fiap.Noticias.Domain.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,13 +14,16 @@ namespace Fiap.Noticias.Service.Services
     public class NoticiaService : INoticiaService
     {
         private readonly INoticiaRepository _noticiaRepository;
-        public NoticiaService(INoticiaRepository noticiaRepository) 
+        private readonly IMapper _mapper;
+        public NoticiaService(INoticiaRepository noticiaRepository, IMapper mapper) 
         {
             _noticiaRepository = noticiaRepository;
+            _mapper = mapper;
         }
-        public async Task<int> Add(Noticia noticia)
+        public async Task<int> Add(NoticiaViewModel noticia)
         {
-           return await _noticiaRepository.Add(noticia);
+           var noticiaNova = _mapper.Map<Noticia>(noticia);
+           return await _noticiaRepository.Add(noticiaNova);
         }
 
         public async Task<List<Noticia>> GetAll()

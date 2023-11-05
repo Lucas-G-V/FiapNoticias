@@ -4,6 +4,7 @@ using Fiap.Noticias.Infra.Data.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Fiap.Noticias.Infra.Data.Migrations
 {
     [DbContext(typeof(NoticiaDbContext))]
-    partial class NoticiaDbContextModelSnapshot : ModelSnapshot
+    [Migration("20231104234538_RemovendoChapeuNoticia")]
+    partial class RemovendoChapeuNoticia
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

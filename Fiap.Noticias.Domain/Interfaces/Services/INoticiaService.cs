@@ -1,4 +1,5 @@
 ﻿using Fiap.Noticias.Domain.Model.Entities;
+using Fiap.Noticias.Domain.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,7 +12,7 @@ namespace Fiap.Noticias.Domain.Interfaces.Services
     {
         Task<List<Noticia>> GetAll();
         Task<Noticia> GetById(Guid id);
-        Task<int> Add(Noticia noticia);
+        Task<int> Add(NoticiaViewModel noticia);
         Task<int> Update(Noticia noticia, Guid id);
     }
 }

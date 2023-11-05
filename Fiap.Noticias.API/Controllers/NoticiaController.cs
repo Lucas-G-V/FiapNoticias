@@ -1,14 +1,15 @@
 ﻿using Fiap.Noticias.Domain.Interfaces.Services;
 using Fiap.Noticias.Domain.Model.Entities;
+using Fiap.Noticias.Domain.ViewModel;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Fiap.Noticias.API.Controllers
 {
-    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     [ApiController]
     [Route("[controller]")]
+    //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class NoticiaController : ControllerBase
     {
         private readonly INoticiaService _noticiaService;
@@ -38,7 +39,7 @@ namespace Fiap.Noticias.API.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<int>> Post([FromBody] Noticia noticia)
+        public async Task<ActionResult<int>> Post([FromBody] NoticiaViewModel noticia)
         {
             var noticias = await _noticiaService.Add(noticia);
 
