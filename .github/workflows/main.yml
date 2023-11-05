@@ -18,6 +18,8 @@ jobs:
         run: dotnet restore
       - name: Build
         run: dotnet build
+      - name: Executar Testes de Unidade
+        run: dotnet test Fiap.Noticias.TesteUnidade/Fiap.Noticias.TesteUnidade.csproj
      
       - name: Configurar SQL Server para Testes
         run: |
