@@ -27,7 +27,7 @@ namespace Fiap.Noticias.Domain.Model.Entities
 
         private void DefineSenhaSeAtenderRequisitos(string senha)
         {
-            Regex regex = new Regex(@"^(?=.*[a-zA-Z])(?=.*\d)[A-Za-z\d]{8,15}$");
+            Regex regex = new Regex(@"^(?=.*[a-zA-Z])(?=.*\d)[A-Za-z\d!@#$%^&*()-_+=<>?]{8,15}$");
             if (!regex.IsMatch(senha)) throw new DomainException("Senha não tem letras e números e deve ter 8 a 15 caracteres");
             Senha = senha;
         }
