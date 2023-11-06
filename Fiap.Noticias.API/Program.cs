@@ -11,6 +11,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
 builder.Services.AddDependencyInjection();
+builder.Services.AddApplicationInsightsTelemetry();
 builder.Services.AddDbContext<NoticiaDbContext>(options =>
 {
     options.UseSqlServer(builder.Configuration.GetConnectionString("FiapNoticias"));
