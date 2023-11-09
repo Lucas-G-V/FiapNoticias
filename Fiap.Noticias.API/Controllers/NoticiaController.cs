@@ -42,7 +42,7 @@ namespace Fiap.Noticias.API.Controllers
         public async Task<ActionResult<int>> Post([FromBody] NoticiaViewModel noticia)
         {
             var noticias = await _noticiaService.Add(noticia);
-
+            noticia.Id = noticias;
             return CreatedAtAction(nameof(ObterPorId), new {Id = noticias}, noticia);
         }
 

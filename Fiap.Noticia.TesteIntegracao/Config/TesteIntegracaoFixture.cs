@@ -39,8 +39,6 @@ namespace Fiap.Noticia.TesteIntegracao.Config
                     Senha = Senha,
                     Nome = "Lucas Teste"
                 };
-
-                // Recriando o client para evitar configurações de Web
                 Client = Factory.CreateClient();
 
                 var response = await Client.PostAsJsonAsync("Usuario/Criar", userData);
@@ -58,8 +56,6 @@ namespace Fiap.Noticia.TesteIntegracao.Config
                     Email = Email,
                     Senha = Senha
                 };
-
-                // Recriando o client para evitar configurações de Web
                 Client = Factory.CreateClient();
 
                 var response = await Client.PostAsJsonAsync("Usuario/Login", userData);
