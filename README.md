@@ -27,7 +27,7 @@ Esta é uma API de Notícias construída em .NET usando o Entity Framework para 
 
 ```bash
 dotnet ef database update
-
+```
 ## Testes
 
 A aplicação foi desenvolvida seguindo práticas de desenvolvimento seguro e inclui:
@@ -39,5 +39,6 @@ Para executar os testes, certifique-se de ter a configuração de conexão corre
 
 ```bash
 dotnet test
-
+```
+## Observação
 O banco de teste é criado automaticamente utilizando o Github Actions através do docker. Caso seja necessário testar na sua máquina, lembre-se de mudar a Connection String do Banco, no arquivo appsettings.Testing.json
